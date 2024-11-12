@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
-WSGI_APPLICATION = 'api.wsgi.app'
+WSGI_APP = 'api.wsgi.app'
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MaesDining.wsgi.application'
+WSGI_APP= 'MaesDining.wsgi.application'
 
 
 # Database
