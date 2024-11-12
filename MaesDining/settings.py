@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
-WSGI_APP = 'api.wsgi.app'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APP= 'MaesDining.wsgi.app'
+WSGI_APPLICATION = 'MaesDining.wsgi.application'
 
 
 # Database
@@ -141,6 +141,3 @@ AUTH_USER_MODEL = "Kitchen.CustomUser"
 # settings.py
 
 
-ALLOWED_HOSTS = [".vercel.app"]
-...
-STATIC_ROOT = BASE_DIR / "staticfiles" / "static"
