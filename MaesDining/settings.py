@@ -141,3 +141,6 @@ AUTH_USER_MODEL = "Kitchen.CustomUser"
 # settings.py
 
 
+ALLOWED_HOSTS = [".vercel.app"]
+...
+STATIC_ROOT = BASE_DIR / "staticfiles" / "static"
