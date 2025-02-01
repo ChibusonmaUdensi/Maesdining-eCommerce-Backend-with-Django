@@ -26,14 +26,14 @@ SECRET_KEY = 'django-insecure-u3)i-gj%pg*vgfg(js6dkqx!9=(_n+)i+8f(4hadol13ypvst5
 DEBUG = True
 
 
-# ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'https://maesdining-ecommerce-backend-with-django.onrender.com']
-ALLOWED_HOSTS = ["*"]
-
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'vercel.app', 'https://maesdining-ecommerce-backend-with-django.onrender.com']
+# ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_CREDENTIALS = True 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,13 +43,13 @@ INSTALLED_APPS = [
     'Kitchen',
     'food_app',
     'rest_framework',
-    'corsheaders',
+   
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -57,11 +57,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ALLOWED_ORIGINS = [
+"https://maesdining.vercel.app",
 "http://localhost:5173",
 "http://localhost:5174",
 "http://localhost:5175",
 
+
 ]
+
 
 ROOT_URLCONF = 'MaesDining.urls'
 
@@ -81,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MaesDining.wsgi.app'
+WSGI_APPLICATION = 'MaesDining.wsgi.application'
 
 
 # Database
