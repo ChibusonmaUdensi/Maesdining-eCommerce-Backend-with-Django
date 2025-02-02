@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Cart, CartItem, Product
-
+from decimal import Decimal
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,11 +18,43 @@ class DetailedProductSerializer(serializers.ModelSerializer):
         products = Product.objects.filter(category=product.category).exclude(id=product.id)
         serializer = ProductSerializer(products, many=True)
         return serializer.data
-            
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    total = serializers.SerializerMethodField()
+    class Meta:
+        model = CartItem
+        fields = ["id", "product", "quantity", "total"]     
+
+
+    def get_total(self, cartitem):
+        price = cartitem.product.price * cartitem.quantity
+        return price
+
+
+
 class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(read_only=True, many=True)
+    tax = serializers.SerializerMethodField()
+    sum_total = serializers.SerializerMethodField()
+    num_of_items = serializers.SerializerMethodField()
     class Meta:
         model = Cart
-        fields = ["id", "cart_code", "created_at", "updated_at"]
+        fields = ["id", "cart_code", "items", "tax", "sum_total", "num_of_items", "created_at", "updated_at"]
+
+
+    def get_sum_total(self, cart):
+        items = cart.items.all()
+        total = sum([item.product.price * item.quantity for item in items])
+        return total
+
+    def get_num_of_items(self, cart):
+        items = cart.items.all()
+        total = sum([item.quantity for item in items])
+        return total 
+
+    def get_tax(self, cart):
+        return self.get_sum_total(cart) * Decimal(0.05)
 
 class SimpleCartSerializer(serializers.ModelSerializer):
     num_of_items = serializers.SerializerMethodField()
@@ -35,9 +67,3 @@ class SimpleCartSerializer(serializers.ModelSerializer):
          return num_of_items
     
 
-class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
-    cart = CartSerializer(read_only=True)
-    class Meta:
-        model = CartItem
-        fields = ["id", "product", "quantity", "cart"]         
